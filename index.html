@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adecuaciones para la certificación - Digital Junior</title>
+
+<!-- librería JS para generar PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="cabecera">
+    <div class="dav">
+      <div class="inner">
+        <img src="img/logoDJ.png" alt="Departamento de Aprendizaje Visual - Digital Junior">
+      </div>
+    </div>
+  </header>
+
+  <div class="intro">
+    <div class="inner">
+      <h1>Solicitud de adecuaciones para certificaciones
+        <span class="sub">Información relevante para la planificación</span>
+      </h1>
+    </div>
+  </div>
+
+  <main class="contenedor">
+
+    <section class="bloque">
+      <p>Con el objetivo de agilizar el análisis de las solicitudes de adecuación y la planificación de las certificaciones, solicitamos completar la siguiente información para cada estudiante y adjuntar el informe profesional correspondiente.</p>
+      <p><strong>Esta plantilla tiene como finalidad resumir la información relevante para el análisis pedagógico de la solicitud y agilizar la planificación de la certificación. No reemplaza el informe profesional, el cual deberá adjuntarse como documentación de respaldo.</strong></p>
+      <div class="nota">
+      <p><strong>Importante:</strong> marcar únicamente aquellas adecuaciones o apoyos que el estudiante
+      utiliza habitualmente durante las instancias de evaluación escolar y que consideran relevantes para
+      la planificación de la certificación. En caso de que alguna necesidad no se encuentre contemplada en
+      las opciones propuestas, podrá detallarse en el apartado <em>Otras consideraciones relevantes</em>.</p>
+    </div>
+      <h2 class="bloque-tit">Datos de la institución</h2>
+      <div class="grid">
+        <div class="campo">
+          <div class="field full" style="position:relative">
+            <label for="colegio">Colegio / Institución educativa</label>
+            <input type="text" id="colegio" autocomplete="off"
+                  role="combobox" aria-autocomplete="list" aria-expanded="false"
+                  aria-controls="colegioSugerencias">
+            <ul id="colegioSugerencias" class="sugerencias" role="listbox"></ul>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="fecha">Fecha</label>
+          <input type="date" id="fecha" placeholder="dd/mm/aaaa" autocomplete="off">
+        </div>
+        <div class="campo">
+          <label for="responsable">Responsable / contacto</label>
+          <input type="text" id="responsable" autocomplete="off">
+        </div>
+      </div>
+    </section>
+
+    <div id="estudiantes"></div>
+
+    <button type="button" class="agregar-est" id="addBtn">+ Agregar alumno</button>
+
+
+  </main>
+
+  <div class="resumen">
+    <div class="inner">
+      <span class="count"><b id="countNum">0</b> alumno(s) cargado(s)</span>
+      <button type="button" class="btn btn-primary" id="pdfBtn">Descargar PDF</button>
+    </div>
+  </div>
+
+<!-- TEMPLATE DE CADA ALUMNO  -->
+<template id="tpl">
+  <section class="card estudiante">
+    <div class="estudiante-cabecera">
+      <div class="indiv">
+        <span class="marcador">01</span>
+        <b>Estudiante Nº <span class="n">1</span></b>
+      </div>
+      <button type="button" class="remove">Quitar</button>
+    </div>
+
+    <div class="grid">
+  <div class="field full">
+    <label>Nombre y apellido</label>
+    <input type="text" data-f="nombre" autocomplete="off">
+  </div>
+  <div class="field">
+    <label>Curso / Año</label>
+    <input type="text" data-f="curso" autocomplete="off">
+  </div>
+  <div class="field">
+    <label>Herramienta a certificar</label>
+    <select data-f="herramienta">
+      <option value="" disabled selected>Seleccionar…</option>
+      <option>MS.Excel</option>
+      <option>MS.PowerPoint</option>
+      <option>MS.Word</option>
+      <option>PhotoShop</option>
+      <option>Illustrator</option>
+      <option>Premiere</option>
+      <option>Diseño.web</option>
+      <option>Scratch</option>
+      <option>App.Inventor</option>
+      <option>Videojuegos</option>
+      <option>Robótica</option>
+      <option>Python</option>
+      <option>Stop.Motion</option>
+      <option>Diseño.3D.TinkerCAD</option>
+      <option>Diseño_e_impresión.3D_Tinkercad</option>
+      <option>Tango.Gestión</option>
+      <option>AutoCAD.2D.Mecánica</option>
+      <option>AutoCAD.2D.Construcción</option>
+      <option>AutoCAD.3D.Mecánica</option>
+      <option>AutoCAD.3D.Construcción</option>
+      <option>Ciencia de datos con Looker studio</option>
+      <option>Machine Learning con Python</option>
+    </select>
+    </div>
+    <div class="field full">
+      <label>Nivel de certificación</label>
+      <select data-f="nivel">
+        <option value="" disabled selected>Seleccionar…</option>
+        <option>Junior</option>
+        <option>Junior Primaria</option>
+        <option>Fundamentos</option>
+        <option>Avanzado</option>
+        <option>Experto</option>
+      </select>
+    </div>
+  </div>
+
+    <h3>Adecuaciones solicitadas</h3>
+
+    <div class="check">
+      <input type="checkbox" data-c="accesibilidad">
+      <label>Requiere adecuaciones de accesibilidad en la presentación del material de evaluación
+      (por ejemplo: tipografía ampliada, mayor interlineado, resaltado de la información relevante
+      y mejoras en la legibilidad del examen).</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" data-c="tiempo">
+      <label>Requiere ampliación del tiempo de resolución.</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" data-c="interpretacion">
+      <label>Requiere apoyo para la interpretación de las consignas.</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" data-c="comprension">
+      <label>Requiere verificar la comprensión de las consignas antes de comenzar la evaluación.</label>
+    </div>
+
+    <div class="check">
+      <input type="checkbox" data-c="software" data-cond="softwareCond">
+      <label>Utiliza software de apoyo.</label>
+    </div>
+    <div class="conditional" data-cid="softwareCond">
+      <label>¿Cuál?</label>
+      <input type="text" data-f="softwareCual" autocomplete="off">
+    </div>
+
+    <div class="check">
+      <input type="checkbox" data-c="acompanamiento" data-cond="acompCond">
+      <label>Requiere acompañamiento durante la evaluación.</label>
+    </div>
+    <div class="conditional" data-cid="acompCond">
+      <label>En caso afirmativo, indicar brevemente cuál sería su función:</label>
+      <input type="text" data-f="acompFuncion" autocomplete="off">
+    </div>
+
+    <h3>Otras consideraciones relevantes</h3>
+    <div class="field">
+      <textarea data-f="otras" placeholder="Especificar…"></textarea>
+    </div>
+
+    <h3>Documentación adjunta</h3>
+    <div class="check">
+      <input type="checkbox" data-c="informe">
+      <label>Informe profesional actualizado (psicopedagógico, interdisciplinario o equivalente).</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" data-c="respaldo">
+      <label>Otra documentación de respaldo.</label>
+    </div>
+  </section>
+</template>
+<script src="js/colegios.js"></script>
+<script src="js/colegio-autocompletar.js"></script>
+<script src="js/libpdf_v2.js"></script>
+</body>
+</html>
