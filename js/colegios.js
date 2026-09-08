@@ -1,0 +1,106 @@
+/* Listado de colegios */
+const COLEGIOS = [
+  "Colegio Alemán de Temperley",
+  "Colegio Campo del Norte - Sede Nordelta",
+  "Colegio Campo del Norte - Sede Puertos",
+  "Colegio Cristiano de Martinez",
+  "Colegio Del Faro - Sede Escobar",
+  "Colegio Del Libertador",
+  "Colegio Esquiú",
+  "Colegio French - Banfield",
+  "Colegio Grilli - Canning",
+  "Colegio Inglés Horacio Watson",
+  "Colegio Inmaculada Concepción - Lanús",
+  "Colegio Internacional Santa María del Buen Ayre",
+  "Colegio Jesús María",
+  "Colegio José Manuel Estrada - Don Torcuato",
+  "Colegio La Anunciata",
+  "Colegio Los Robles",
+  "Colegio Newlands",
+  "Colegio Niño Jesús de Praga",
+  "Colegio Ntra. Sra. de la Misericordia - Rosario",
+  "Colegio Nuestra Señora de la Misericordia - Recoleta",
+  "Colegio Nueva Generación",
+  "Colegio San Albano",
+  "Colegio San Gabriel",
+  "Colegio San Jorge - Quilmes",
+  "Colegio San José - Marcos Paz",
+  "Colegio San Maximiliano Kolbe",
+  "Colegio San Patricio - CABA",
+  "Colegio San Patricio - Rosario, Santa Fe",
+  "Colegio Santa Brígida",
+  "Colegio Santa Ethnea",
+  "Colegio Santa María de Pehuajó",
+  "Colegio Santa Teresa de Jesús",
+  "Colegio Santa Trinidad",
+  "Colegio St. Hildas",
+  "Colegio de Nuestra Señora",
+  "Colegio del Norte",
+  "Complejo Educativo Pbro E. E. Natta",
+  "EESOPI N° 3083 \"Dante Alighieri\"",
+  "Escuela Argentina General Belgrano",
+  "Escuela Del Encuentro",
+  "Escuela Integral Maimónides",
+  "Escuela Italo-Argentina San Mauro",
+  "Escuela Martín Buber",
+  "Escuela Modelo Mariano Acosta",
+  "Escuela Modelo Sarmiento",
+  "Escuela Nº 8120 \"Nuestra Señora de Las Mercedes\"",
+  "Escuela Santa María de las Lomas - St. Mary of the Hills",
+  "Escuela Secundaria Alfonsina Storni",
+  "Escuela Tierra de Kif",
+  "Escuela del Jacarandá",
+  "Fundación IDEO",
+  "Instituto Argentino Gallego Santiago Apóstol",
+  "Instituto Arnold Gesell",
+  "Instituto Asociación Educativa Pío León",
+  "Instituto Bilingüe Sagrada Familia",
+  "Instituto Cardoso",
+  "Instituto Carlos Steeb",
+  "Instituto Colegio La Inmaculada",
+  "Instituto Del Prado",
+  "Instituto Del Sur",
+  "Instituto Eduardo L. Holmberg",
+  "Instituto Educacional San Miguel – San Miguel",
+  "Instituto Espíritu Santo",
+  "Instituto Evangélico Americano - José C. Paz",
+  "Instituto Hölters",
+  "Instituto Inmaculada Concepción - Azul",
+  "Instituto José C. Paz",
+  "Instituto Libre de Segunda Enseñanza",
+  "Instituto Mater Ter Admirabilis",
+  "Instituto Nuestra Señora de Fátima - Cipolletti",
+  "Instituto Privado Esclavas del Sagrado Corazón de Jesús",
+  "Instituto San Cayetano - Liniers",
+  "Instituto San Gregorio",
+  "Instituto San José - Morón",
+  "Instituto Santa Ana y San Joaquín",
+  "Instituto Santa Catalina Virgen y Mártir",
+  "Instituto Santa Rita",
+  "Instituto Santísima Virgen Niña",
+  "Instituto Secundario Lincoln",
+  "Instituto Susini",
+  "Instituto Tierra Santa",
+  "Moderno Instituto Secundario",
+  "New Model International School",
+  "St Brendan's College",
+  "St. Paul's College - Hurlingham",
+  "Washington School",
+];
+
+
+
+// Formateo texto: minúsculas, sin tildes, sin espacios de más.
+function normalizar(s){
+  return (s || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // saca tildes
+    .replace(/\s+/g, ' ')                             // elimina espacios extra
+    .trim();
+}
+
+// Devuelve el nombre EXACTO del registro si el texto coincide con alguno; si no, null.
+function resolverColegio(valor){
+  const n = normalizar(valor);
+  return COLEGIOS.find(c => normalizar(c) === n) || null;
+}
