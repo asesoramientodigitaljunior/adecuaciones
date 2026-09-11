@@ -99,45 +99,18 @@
     <label>Curso / Año</label>
     <input type="text" data-f="curso" autocomplete="off">
   </div>
-  <div class="field">
-    <label>Herramienta a certificar</label>
-    <select data-f="herramienta">
-      <option value="" disabled selected>Seleccionar…</option>
-      <option>MS.Excel</option>
-      <option>MS.PowerPoint</option>
-      <option>MS.Word</option>
-      <option>PhotoShop</option>
-      <option>Illustrator</option>
-      <option>Premiere</option>
-      <option>Diseño.web</option>
-      <option>Scratch</option>
-      <option>App.Inventor</option>
-      <option>Videojuegos</option>
-      <option>Robótica</option>
-      <option>Python</option>
-      <option>Stop.Motion</option>
-      <option>Diseño.3D.TinkerCAD</option>
-      <option>Diseño_e_impresión.3D_Tinkercad</option>
-      <option>Tango.Gestión</option>
-      <option>AutoCAD.2D.Mecánica</option>
-      <option>AutoCAD.2D.Construcción</option>
-      <option>AutoCAD.3D.Mecánica</option>
-      <option>AutoCAD.3D.Construcción</option>
-      <option>Ciencia de datos con Looker studio</option>
-      <option>Machine Learning con Python</option>
-    </select>
-    </div>
-    <div class="field full">
-      <label>Nivel de certificación</label>
-      <select data-f="nivel">
-        <option value="" disabled selected>Seleccionar…</option>
-        <option>Junior</option>
-        <option>Junior Primaria</option>
-        <option>Fundamentos</option>
-        <option>Avanzado</option>
-        <option>Experto</option>
-      </select>
-    </div>
+  <div class="field" style="position:relative">
+  <label>Herramienta a certificar</label>
+  <input type="text" data-f="herramienta" autocomplete="off"
+         role="combobox" aria-autocomplete="list" aria-expanded="false">
+  <ul class="sugerencias" data-sug="herramienta" role="listbox"></ul>
+</div>
+<div class="field full">
+  <label>Nivel de certificación</label>
+  <select data-f="nivel">
+    <option value="" disabled selected>Elegí primero una herramienta</option>
+  </select>
+</div>
   </div>
 
     <h3>Adecuaciones solicitadas</h3>
@@ -196,6 +169,8 @@
   </section>
 </template>
 <script src="js/colegios.js"></script>
+<script src="js/herramientas.js"></script>
+<script src="js/herramienta-nivel.js"></script>
 <script src="js/colegio-autocompletar.js"></script>
 <script src="js/libpdf_v2.js"></script>
 </body>

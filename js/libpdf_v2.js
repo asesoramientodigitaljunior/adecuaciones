@@ -5,6 +5,7 @@
   const countNum = document.getElementById('countNum');
   const NIVEL_UNICO = ["App.Inventor", "Tango.Gestión", "Ciencia de datos con Looker studio", "Machine Learning con Python"];
   const NIVELES_NORMALES = ["Junior", "Junior Primaria", "Fundamentos", "Avanzado", "Experto"];
+  const NARANJA = [255, 87, 51];   // #FF5733
 
   const hoy = new Date();
   document.getElementById('fecha').value =
@@ -24,41 +25,28 @@
   }
 
   function addStudent(){
-    const node = tpl.content.firstElementChild.cloneNode(true);
-    node.querySelector('.remove').addEventListener('click', ()=>{ node.remove(); renumber(); });
-    node.querySelectorAll('[data-cond]').forEach(chk=>{
-      chk.addEventListener('change', ()=>{
-        const cond = node.querySelector('[data-cid="'+chk.dataset.cond+'"]');
-        cond.classList.toggle('show', chk.checked);
-        if(!chk.checked){ cond.querySelector('input').value=''; }
-      });
+  const node = tpl.content.firstElementChild.cloneNode(true);
+
+  // botón quitar
+  node.querySelector('.remove').addEventListener('click', ()=>{ node.remove(); renumber(); });
+
+  // checkboxes con campo extra (software / acompañamiento)
+  node.querySelectorAll('[data-cond]').forEach(chk=>{
+    chk.addEventListener('change', ()=>{
+      const cond = node.querySelector('[data-cid="'+chk.dataset.cond+'"]');
+      cond.classList.toggle('show', chk.checked);
+      if(!chk.checked){ cond.querySelector('input').value=''; }
     });
-     // Opciones de Nivel según la herramienta ("Único" solo para algunas)
-      const selH = node.querySelector('[data-f="herramienta"]');
-      const selN = node.querySelector('[data-f="nivel"]');
+  });
 
-      function rellenarNivel(){
-        const esUnico = NIVEL_UNICO.includes(selH.value);
-        const opciones = esUnico ? ['Único'] : NIVELES_NORMALES;
-        const previo = selN.value;
-        selN.innerHTML = '<option value="" disabled selected>Seleccionar…</option>' +
-          opciones.map(o => '<option>' + o + '</option>').join('');
-        if(esUnico){
-          selN.value = 'Único';       // queda fijo en Único
-          selN.disabled = true;
-        } else {
-          selN.disabled = false;
-          if(opciones.includes(previo)) selN.value = previo;  // conserva la elección si sigue siendo válida
-        }
-      }
+  // predictivo de herramienta + niveles dependientes
+  configurarHerramientaYNivel(node);
 
-      selH.addEventListener('change', rellenarNivel);
-      rellenarNivel();  // deja el Nivel coherente desde el arranque
-    students.appendChild(node);
-    renumber();
-    node.querySelector('[data-f="nombre"]').focus();
-    node.scrollIntoView({behavior:'smooth', block:'center'});
-  }
+  students.appendChild(node);
+  renumber();
+  node.querySelector('[data-f="nombre"]').focus();
+  node.scrollIntoView({behavior:'smooth', block:'center'});
+}
 
   document.getElementById('addBtn').addEventListener('click', addStudent);
 
@@ -95,6 +83,19 @@
       return;
     }
 
+    // El nivel es obligatorio (salvo que la herramienta lo fije automáticamente)
+    const iSinNivel = data.findIndex(s => !s.nivel);
+    if(iSinNivel !== -1){
+      alert('Seleccioná el nivel de certificación del Estudiante Nº ' + (iSinNivel+1) + ' antes de descargar el PDF.');
+      const card = students.querySelectorAll('.estudiante')[iSinNivel];
+      if(card){
+        const sel = card.querySelector('[data-f="nivel"]');
+        sel.focus();
+        sel.scrollIntoView({behavior:'smooth', block:'center'});
+      }
+      return;
+    }
+
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({unit:'mm', format:'a4'});
     const PW=210, PH=297, M=20, CW=PW-M*2;
@@ -112,12 +113,12 @@
     const resp = document.getElementById('responsable').value.trim();
 
     function header(){
-      doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(...ACC);
+      doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(...NARANJA);
       doc.text('DEPARTAMENTO DE APRENDIZAJE VISUAL', M, y);
       doc.setFont('helvetica','normal'); doc.setTextColor(...MUT);
       doc.text('UTN.BA · Programa Digital Junior', PW-M, y, {align:'right'});
       y += 3;
-      doc.setDrawColor(...ACC); doc.setLineWidth(0.6); doc.line(M, y, PW-M, y);
+      doc.setDrawColor(...NARANJA); doc.setLineWidth(0.6); doc.line(M, y, PW-M, y);
       y += 8;
     }
     function ensure(h){ if(y+h > PH-M){ doc.addPage(); y=M; header(); } }
