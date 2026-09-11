@@ -1,12 +1,3 @@
-/* =========================================================================
-   HERRAMIENTAS A CERTIFICAR  y  NIVELES COMPATIBLES
-   -------------------------------------------------------------------------
-   Esta tabla es la única fuente: de acá salen tanto las herramientas que
-   sugiere el buscador como los niveles disponibles para cada una.
-   Para agregar/quitar una herramienta o cambiar sus niveles, editá este
-   objeto:   "Nombre de la herramienta": ["Nivel 1", "Nivel 2", ...]
-   Requiere que js/colegios.js se cargue ANTES (usa la función normalizar).
-   ========================================================================= */
 const HERRAMIENTAS = {
   "MS.Excel": ["Junior", "Fundamentos", "Avanzado", "Experto"],
   "MS.PowerPoint": ["Junior", "Fundamentos", "Avanzado"],
